@@ -29,7 +29,7 @@
 </nav>
 
 <div class="container mt-4">
-    <!-- @yield('content') is used to display the content of the current view -->
+    <!-- yield('content') is used to display the content of the current view -->
     @yield('content') 
 </div>
 
