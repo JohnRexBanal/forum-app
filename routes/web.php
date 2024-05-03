@@ -25,5 +25,5 @@ Route::delete('/delete/{id}', [PostController::class, 'destroy'])->name('delete'
 Route::delete('/delete/{id}', [PostController::class, 'destroy'])->name('delete');
 
 // login routes
-Route::get('/login', [RegisterController::class, 'showloginForm'])->name('login');
-Route::post('/login', [RegisterController::class, 'login']);
+Route::get('/login', [loginController::class, 'showloginForm'])->name('login');
+Route::post('/login', [loginController::class, 'login']);
