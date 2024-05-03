@@ -47,6 +47,6 @@ class AuthenticationController extends Controller
         $authenticatedUser = auth()->user();
 
         // Redirecting to dashboard with a welcome message
-        return redirect("/dashboard")->with('success', "Welcome $authenticatedUser->name.");
+        return redirect("/home")->with('success', "Welcome $authenticatedUser->name.");
     }
 }
