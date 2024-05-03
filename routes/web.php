@@ -17,5 +17,8 @@ Route::get('show/{id}', [PostController::class, 'show'])->name('show');
 Route::get('edit/{id}', [PostController::class, 'edit'])->name('edit');
 Route::put('update/{id}', [PostController::class, 'update'])->name('update');
 Route::delete('delete/{id}', [PostController::class, 'destroy'])->name('delete');
+Route::get('/register', function () {
+    return view('register');
+});
 
 
