@@ -8,7 +8,8 @@
 </head>
 <body>
     <h2>Registration Form</h2>
-    <form>
+    <form action="{{ route('register') }}" method="post">
+        @csrf
         <div>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name">
