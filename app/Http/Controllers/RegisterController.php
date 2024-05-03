@@ -28,8 +28,6 @@ class RegisterController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        // You can optionally log in the user here if needed
-
         return redirect('/')->with('success', 'Registration successful!');
     }
 }
