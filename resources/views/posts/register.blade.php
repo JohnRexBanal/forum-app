@@ -1,4 +1,4 @@
-<!-- resources/views/register.blade.php -->
+<!-- resources/views/posts/register.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
