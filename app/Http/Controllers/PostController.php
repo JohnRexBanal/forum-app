@@ -13,11 +13,13 @@ class PostController extends Controller
     }
 
     public function store(Request $request){
+        // get the current authenticated user
+        $user = auth()->user();
         //create an instance of the Post model and save the data
         $post = new Post();
         $post->title = $request->title;
         $post->body = $request->body;
-        $post->user_id = rand(1, 5);
+        $post->user_id = $user->id;
         $post->save();
         return redirect('/posts');
     }
