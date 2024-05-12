@@ -30,10 +30,11 @@
 <div class="container">
   <div class="login-form">
     <h2>Login</h2>
-    <form>
+    <form action="login/process" method="POST">
+      @csrf
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+        <input type="email" class="form-control" id="email" name="email" required>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -41,6 +42,8 @@
       </div>
       <button type="submit" class="btn btn-primary btn-block">Login</button>
     </form>
+
+    <p class="text-center mt-5">Sign up <a href="/register">here</a></p>
   </div>
 </div>
 
