@@ -9,7 +9,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* Custom styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
@@ -43,7 +42,7 @@
 <body>
     <div class="container">
         <h1 class="text-center mb-4"><i class="fas fa-user-plus"></i> Registration</h1>
-        <form action="{{ route('register') }}" method="post">
+        <form action="/register" method="post">
             @csrf
             <div class="form-group">
                 <label for="name"><i class="fas fa-user"></i> Name:</label>
@@ -61,9 +60,9 @@
                 <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-user-plus"></i> Register</button>
             </div>
         </form>
+
+        <p class="text-center mt-3">Sign in <a href="/login">here</a></p>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
