@@ -1,33 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
-    public function showRegistrationForm()
+    public function index()
     {
-        return view('posts.register');
+        return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+        
+        $validated = $request->validate([
+            'name' => ['required', 'string','max:255'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'password' => 'required|string|min:8'
         ]);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+        $validated ['password'] = bcrypt($validated ['password']);
+        $user = User::create($validated);
+        
 
-        return redirect('/')->with('success', 'Registration successful!');
+        return redirect('/login')->with('success', 'Registration successful!');
     }
 }
