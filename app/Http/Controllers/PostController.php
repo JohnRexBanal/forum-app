@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -28,7 +29,8 @@ class PostController extends Controller
         return view('posts.show', ['post' => $post]);
     }
 
-    public function edit($id){
+    public function edit(Post $post, $id){
+        Gate ::authorize('update', $post);
         // the firstOrFail() method will throw an exception if the post is not found
         $post = Post::where('id', $id)->firstOrFail();
         return view('posts.edit', ['post' => $post]);
