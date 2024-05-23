@@ -14,6 +14,7 @@ Route::get('/posts/create', function () {
     return view('posts.create');
 })->name('posts.create');
 
+
 // Registration routes
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
@@ -22,6 +23,7 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register.s
 Route::get('login', [AuthenticationController::class, 'index'])->name('login');
 Route::post('login/process', [AuthenticationController::class, 'authenticateUser']);
 Route::post('logout', [AuthenticationController::class, 'logout']);
+
 
 
 // posts routes
