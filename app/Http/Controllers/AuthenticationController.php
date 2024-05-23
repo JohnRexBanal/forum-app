@@ -8,9 +8,14 @@ class AuthenticationController extends Controller
 {
     private $user;
 
-    public function __construct()
+    public function __construct(User $user)
     {
-        $this->user = new User;
+        $this->user = $user;
+    }
+
+    public function index()
+    {
+        return view('auth.login');
     }
 
     public function authenticateUser(Request $request)
@@ -32,7 +37,7 @@ class AuthenticationController extends Controller
         session()->flush();
 
         // Redirecting to home page with success message
-        return redirect('/')->with('success', 'Successfully logged out.');
+        return redirect('/login')->with('success', 'Successfully logged out.');
     }
 
     private function validateUserAccount()
@@ -46,7 +51,7 @@ class AuthenticationController extends Controller
         // If authenticated, get the authenticated user
         $authenticatedUser = auth()->user();
 
-        // Redirecting to dashboard with a welcome message
-        return redirect("/home")->with('success', "Welcome $authenticatedUser->name.");
+        // Redirecting to dashboard with a welcome messag
+        return redirect()->route("home")->with('success', "Welcome $authenticatedUser->name.");
     }
 }

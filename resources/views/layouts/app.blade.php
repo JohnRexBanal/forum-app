@@ -21,7 +21,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button class="nav-link">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>
