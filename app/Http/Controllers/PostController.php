@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -65,16 +66,10 @@ class PostController extends Controller
         return view('posts.show', ['post' => $post]);
     }
 
-    /**
-     * Show the form for editing the specified post.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function edit($id)
-    {
-        // Retrieve the post by its id
-        // The firstOrFail() method will throw an exception if the post is not found
+    public function edit(Post $post, $id){
+        Gate ::authorize('update', $post);
+        // the firstOrFail() method will throw an exception if the post is not found
+  
         $post = Post::where('id', $id)->firstOrFail();
         
         // Return the 'posts.edit' view with the post data

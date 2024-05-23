@@ -51,7 +51,7 @@ class AuthenticationController extends Controller
         // If authenticated, get the authenticated user
         $authenticatedUser = auth()->user();
 
-        // Redirecting to dashboard with a welcome message
+        // Redirecting to dashboard with a welcome messag
         return redirect()->route("home")->with('success', "Welcome $authenticatedUser->name.");
     }
 }
