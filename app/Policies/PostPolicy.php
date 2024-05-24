@@ -16,10 +16,10 @@ class PostPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
-    {
-        return true;
-    }
+    // public function viewAny(User $user)
+    // {
+    //     return true;
+    // }
 
     /**
      * Determine whether the user can view the model.
@@ -53,7 +53,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return $user->id === $post->id;
+        return $user->id === $post->user_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->id === $post->id;
+        return $user->id === $post->user_id;
     }
 
     /**
@@ -75,10 +75,10 @@ class PostPolicy
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Post $post)
-    {
-        //
-    }
+    // public function restore(User $user, Post $post)
+    // {
+    //     //
+    // }
 
     /**
      * Determine whether the user can permanently delete the model.
@@ -87,8 +87,8 @@ class PostPolicy
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Post $post)
-    {
-        //
-    }
+    // public function forceDelete(User $user, Post $post)
+    // {
+    //     //
+    // }
 }
