@@ -3,55 +3,54 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AuthenticationController extends Controller
 {
-    private $user;
 
-    public function __construct(User $user)
+    public function login(Request $request)
     {
-        $this->user = $user;
-    }
-
-    public function index()
-    {
-        return view('auth.login');
-    }
-
-    public function authenticateUser(Request $request)
-    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
         // Attempting authentication with provided email and password
         if (auth()->attempt($request->only('email', 'password'))) {
-            // If authentication is successful, redirect to check user account
-            return $this->validateUserAccount();
+            $user = auth()->user();
+            $token = $user->createToken('token-name')->plainTextToken;
+
+            return response()->json(['token' => $token], 201);
         }
 
         // If authentication fails, redirect back with input and a warning message
-        return back()->withInput()->with('warning', 'Incorrect user credentials.');
+        return response()->json(['message' => 'Invalid username or password'], 401);
     }
 
     public function logout()
     {
-        // Logging out user and flushing session data
-        auth()->logout();
-        session()->flush();
-
-        // Redirecting to home page with success message
-        return redirect('/login')->with('success', 'Successfully logged out.');
+        auth()->user()->tokens()->delete();
+        return response()->json(['message' => 'Logged out'], 200);
     }
 
-    private function validateUserAccount()
+    public function register(Request $request)
     {
-        // Checking if user is authenticated
-        if (!auth()->check()) {
-            // If not authenticated, redirect back
-            return back();
-        }
+        
+        $validated = $request->validate([
+            'name' => ['required', 'string','max:255'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'password' => 'required|string|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+        ],
+        [
+            'email.unique' => 'The email has already been taken.',
+            'password.min' => 'The password must be at least 6 characters.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
+        ]);
 
-        // If authenticated, get the authenticated user
-        $authenticatedUser = auth()->user();
+        $validated ['password'] = bcrypt($validated ['password']);
+        $user = User::create($validated);
+        
 
-        // Redirecting to dashboard with a welcome messag
-        return redirect()->route("home")->with('success', "Welcome $authenticatedUser->name.");
+        return response()->json(['message' => 'User registered successfully'], 201);
     }
 }

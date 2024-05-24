@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
+
     /**
      * Display a listing of all posts.
      *
@@ -35,6 +41,10 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'body' => 'required|string|max:255',
         ]);
+
+        if (Gate::denies('create', Post::class)) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
         // Get the currently authenticated user
         $user = auth()->user();
@@ -67,7 +77,10 @@ class PostController extends Controller
         // Retrieve the post by its id, including the related user
         // The firstOrFail() method will throw an exception if the post is not found
         $post = Post::with('user')->where('id', $id)->firstOrFail();
-        
+
+        if (Gate::denies('view', $post)) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
         // Return the post as JSON
         return response()->json($post, 200);
     }
@@ -83,6 +96,11 @@ class PostController extends Controller
         // Retrieve the post by its id
         // The firstOrFail() method will throw an exception if the post is not found
         $post = Post::where('id', $id)->firstOrFail();
+        $user = auth()->user();
+
+        if (Gate::denies('update', $post)) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
         
         // Return the post as JSON
         return response()->json($post, 200);
@@ -106,6 +124,11 @@ class PostController extends Controller
         // Retrieve the post by its id
         // The firstOrFail() method will throw an exception if the post is not found
         $post = Post::where('id', $id)->firstOrFail();
+        $user = auth()->user();
+
+        if (Gate::denies('update', $post)) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
         
         // Update the title and body of the post with data from the request
         $post->title = $request->title;
@@ -131,7 +154,7 @@ class PostController extends Controller
         $post = Post::where('id', $id)->firstOrFail();
         
         // Check if the authenticated user is authorized to delete the post
-        if ($post->user_id !== auth()->id()) {
+        if (Gate::denies('delete', $post)) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
